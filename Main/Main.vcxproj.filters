@@ -42,6 +42,12 @@
     <ClCompile Include="stb_image.cpp">
       <Filter>源文件\stb</Filter>
     </ClCompile>
+    <ClCompile Include="Vbo.cpp">
+      <Filter>源文件\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件\opengl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -53,6 +59,12 @@
     <ClInclude Include="stb_image.h">
       <Filter>头文件\stb</Filter>
     </ClInclude>
+    <ClInclude Include="Vbo.h">
+      <Filter>头文件\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>头文件\opengl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="v0.glsl">
@@ -62,6 +74,9 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="fragment_white_light.glsl">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="container.jpg">
