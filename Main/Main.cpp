@@ -309,7 +309,7 @@ int main()
 			lightingShader.setMat4("projection", projection);
 
 			glBindVertexArray(VAO);
-			glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices));
+			glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
 		}
 
 		//光源
