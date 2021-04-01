@@ -12,106 +12,6 @@
 #include "Vbo.h"
 #include "Camera.h"
 
-// settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
-
-// camera
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-float lastX = SCR_WIDTH / 2.0f;
-float lastY = SCR_HEIGHT / 2.0f;
-bool firstMouse = true;
-
-//带纹理坐标
-//float vertices[] = {
-//	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-//	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-//	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-//	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-//
-//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-//	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-//	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//
-//	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//
-//	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//
-//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-//	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//
-//	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-//	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-//	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-//};
-
-//只有顶点坐标
-//float vertices[] = {
-//	-0.5f, -0.5f, -0.5f,
-//	 0.5f, -0.5f, -0.5f,
-//	 0.5f,  0.5f, -0.5f,
-//	 0.5f,  0.5f, -0.5f,
-//	-0.5f,  0.5f, -0.5f,
-//	-0.5f, -0.5f, -0.5f,
-//
-//	-0.5f, -0.5f,  0.5f,
-//	 0.5f, -0.5f,  0.5f,
-//	 0.5f,  0.5f,  0.5f,
-//	 0.5f,  0.5f,  0.5f,
-//	-0.5f,  0.5f,  0.5f,
-//	-0.5f, -0.5f,  0.5f,
-//
-//	-0.5f,  0.5f,  0.5f,
-//	-0.5f,  0.5f, -0.5f,
-//	-0.5f, -0.5f, -0.5f,
-//	-0.5f, -0.5f, -0.5f,
-//	-0.5f, -0.5f,  0.5f,
-//	-0.5f,  0.5f,  0.5f,
-//
-//	 0.5f,  0.5f,  0.5f,
-//	 0.5f,  0.5f, -0.5f,
-//	 0.5f, -0.5f, -0.5f,
-//	 0.5f, -0.5f, -0.5f,
-//	 0.5f, -0.5f,  0.5f,
-//	 0.5f,  0.5f,  0.5f,
-//
-//	-0.5f, -0.5f, -0.5f,
-//	 0.5f, -0.5f, -0.5f,
-//	 0.5f, -0.5f,  0.5f,
-//	 0.5f, -0.5f,  0.5f,
-//	-0.5f, -0.5f,  0.5f,
-//	-0.5f, -0.5f, -0.5f,
-//
-//	-0.5f,  0.5f, -0.5f,
-//	 0.5f,  0.5f, -0.5f,
-//	 0.5f,  0.5f,  0.5f,
-//	 0.5f,  0.5f,  0.5f,
-//	-0.5f,  0.5f,  0.5f,
-//	-0.5f,  0.5f, -0.5f
-//};
-
 //带法向量
 float vertices[] = {
 	   -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -157,20 +57,27 @@ float vertices[] = {
 	   -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
 
-
-GLuint VAO;
+GLuint cubeVAO;
 GLuint VBO;
 
-GLuint lightVAO;
+GLuint lightCubeVAO;
 GLuint lightVBO;
 
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+// settings
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
 
-float deltaTime = 0.0f; // 当前帧与上一帧的时间差
-float lastFrame = 0.0f; // 上一帧的时间
+// camera
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+float lastX = SCR_WIDTH / 2.0f;
+float lastY = SCR_HEIGHT / 2.0f;
+bool firstMouse = true;
 
+// timing
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
+// lighting
 glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 int main()
@@ -204,77 +111,52 @@ int main()
 	}
 
 	Shader lightingShader("v0.glsl", "f0.glsl");
-	Shader lightShader("v0.glsl", "fragment_white_light.glsl");
+	Shader lightCubeShader("v0.glsl", "fragment_white_light.glsl");
 
 	//加载数据缓存
-	glGenVertexArrays(1, &VAO);
-	glGenVertexArrays(1, &lightVAO);
+	glGenVertexArrays(1, &cubeVAO);
+	glGenVertexArrays(1, &lightCubeVAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &lightVBO);
 
 	uint8_t step[] = { 3,3 };
 
 	//光源
-	glBindVertexArray(lightVAO);
+	glBindVertexArray(lightCubeVAO);
 	Vbo::build(lightVBO, vertices, sizeof(vertices) / sizeof(vertices[0]), step, sizeof(step) / sizeof(step[0]));
 	glBindVertexArray(0);
 
 	//被照射物体
-	glBindVertexArray(VAO);
+	glBindVertexArray(cubeVAO);
 	Vbo::build(VBO, vertices, sizeof(vertices) / sizeof(vertices[0]), step, sizeof(step) / sizeof(step[0]));
 	glBindVertexArray(0);
 
-	////纹理
-	//unsigned int texture0, texture1;
-	//glGenTextures(1, &texture0);
-	//glGenTextures(1, &texture1);
+	// // first, configure the cube's VAO (and VBO)
+	//unsigned int VBO, cubeVAO;
+	//glGenVertexArrays(1, &cubeVAO);
+	//glGenBuffers(1, &VBO);
 
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, texture0);
-	//glActiveTexture(GL_TEXTURE1);
-	//glBindTexture(GL_TEXTURE_2D, texture1);
+	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	////
-	//int width, height, nrChannels;
-	//unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
-	//glActiveTexture(GL_TEXTURE0);
-	//// 为当前绑定的纹理对象设置环绕、过滤方式
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//if (data) {
-	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	//	glGenerateMipmap(GL_TEXTURE_2D);
-	//}
-	//else
-	//{
-	//	std::cout << "Failed to load texture" << std::endl;
-	//}
-	//stbi_image_free(data);
+	//glBindVertexArray(cubeVAO);
 
-	//data = stbi_load("awesomeface.png", &width, &height, &nrChannels, 0);
-	//glActiveTexture(GL_TEXTURE1);
-	//// 为当前绑定的纹理对象设置环绕、过滤方式
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//if (data) {
-	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	//	glGenerateMipmap(GL_TEXTURE_2D);
-	//}
-	//else
-	//{
-	//	std::cout << "Failed to load texture" << std::endl;
-	//}
-	//stbi_image_free(data);
+	//// position attribute
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	//glEnableVertexAttribArray(0);
+	//// normal attribute
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	//glEnableVertexAttribArray(1);
 
-	//不会改变的属性
-	lightingShader.use();
-	lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-	lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-	lightingShader.setVec3("lightPos", lightPos);
+	//// second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
+	//unsigned int lightCubeVAO;
+	//glGenVertexArrays(1, &lightCubeVAO);
+	//glBindVertexArray(lightCubeVAO);
+
+	//glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	//// note that we update the lamp's position attribute's stride to reflect the updated buffer data
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	//glEnableVertexAttribArray(0);
 
 	glEnable(GL_DEPTH_TEST);
 	//render loop
@@ -290,44 +172,57 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		//// view/projection transformations
+		//glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		//glm::mat4 view = camera.GetViewMatrix();
+
+		//被照射物体
+		lightingShader.use();
+		lightingShader.setVec3("light.position", lightPos);
+		lightingShader.setVec3("viewPos", camera.Position);
+
+		// light properties
+		glm::vec3 lightColor;
+		lightColor.x = sin(glfwGetTime() * 2.0f);
+		lightColor.y = sin(glfwGetTime() * 0.7f);
+		lightColor.z = sin(glfwGetTime() * 1.3f);
+		glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f); // decrease the influence
+		glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); // low influence
+		lightingShader.setVec3("light.ambient", ambientColor);
+		lightingShader.setVec3("light.diffuse", diffuseColor);
+		lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
+		// material properties
+		lightingShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
+		lightingShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+		lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f); // specular lighting doesn't have full effect on this object's material
+		lightingShader.setFloat("material.shininess", 32.0f);
+
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
+		lightingShader.setMat4("projection", projection);
+		lightingShader.setMat4("view", view);
 
-		//被照射物体
-		{
-			lightingShader.use();
+		// world transformation
+		glm::mat4 model = glm::mat4(1.0f);
+		lightingShader.setMat4("model", model);
 
-			lightingShader.setVec3("viewPos", cameraPos);
-
-			//模型
-			glm::mat4 model(1.0f);
-			model = glm::rotate(model, glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-
-			lightingShader.setMat4("model", model);
-			lightingShader.setMat4("view", view);
-			lightingShader.setMat4("projection", projection);
-
-			glBindVertexArray(VAO);
-			glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
-		}
+		// render the cube
+		glBindVertexArray(cubeVAO);
+		glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
 
 		//光源
-		{
-			lightShader.use();
+		lightCubeShader.use();
+		lightCubeShader.setMat4("projection", projection);
+		lightCubeShader.setMat4("view", view);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPos);
+		model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
+		lightCubeShader.setMat4("model", model);
 
-			//模型
-			glm::mat4 model(1.0f);
-			model = glm::translate(model, lightPos);
-			model = glm::scale(model, glm::vec3(0.2f));
-
-			lightShader.setMat4("model", model);
-			lightShader.setMat4("view", view);
-			lightShader.setMat4("projection", projection);
-
-			glBindVertexArray(lightVAO);
-			glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices));
-		}
+		glBindVertexArray(lightCubeVAO);
+		glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -335,7 +230,8 @@ int main()
 
 	// optional: de-allocate all resources once they've outlived their purpose:
 	// ------------------------------------------------------------------------
-	glDeleteVertexArrays(1, &VAO);
+	glDeleteVertexArrays(1, &cubeVAO);
+	glDeleteVertexArrays(1, &lightCubeVAO);
 	glDeleteBuffers(1, &VBO);
 	glfwTerminate();
 	return 0;

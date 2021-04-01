@@ -20,6 +20,4 @@ void Vbo::build(GLuint vbo, GLfloat* vertices, uint32_t verticesLength, uint8_t*
 		glEnableVertexAttribArray(i);
 		offset = offset + dataStep[i] * floatSize;
 	}
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
